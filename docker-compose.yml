@@ -1,0 +1,16 @@
+---
+version: '3.8'
+
+services:
+  phplanet:
+    container_name: php-apache-server
+    build:
+      context: .
+    volumes:
+      - ./public_html:/var/www/html
+    ports:
+      - 22222:80
+    develop:
+      watch:
+        - action: rebuild
+          path: Dockerfile
