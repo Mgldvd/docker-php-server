@@ -17,11 +17,8 @@ help:
 
 up: ## Run container
 	docker compose up -d
-	@compose_files=("compose.yml"); \
-	ports=$$(awk '/ports:/{getline; print $$2}' <<< "$$compose_files"); \
-	IFS=: read -r port1 port2 <<< "$$ports" || { echo "Error: Invalid port format"; exit 1; }; \
-	echo; \
-	echo -e "\033[32m▎ \033[0m URL:  \033[32mhttp://localhost:$$port1\033[0m"
+	@echo
+	@echo -e "\033[32m▎ \033[0m URL:  \033[32mhttp://localhost:$(shell awk '/ports:/{getline; print $$2}' compose.yml | awk -F':' '{print $$1}')"
 
 stop: ## Stop container
 	docker compose stop
@@ -34,11 +31,6 @@ down: ## Remove contanier
 build: ## Edit Dockerfile and rebuild container
 	docker compose watch
 
-
 url:
-	@compose_files=("compose.yml"); \
-	ports=$$(awk '/ports:/{getline; print $$2}' <<< "$$compose_files"); \
-	IFS=: read -r port1 port2 <<< "$$ports" || { echo "Error: Invalid port format"; exit 1; }; \
-	echo; \
-	echo -e "\033[32m▎ \033[0m URL:  \033[32mhttp://localhost:$$port1\033[0m"
-
+	@echo
+	@echo -e "\033[32m▎ \033[0m URL:  \033[32mhttp://localhost:$(shell awk '/ports:/{getline; print $$2}' compose.yml | awk -F':' '{print $$1}')"
